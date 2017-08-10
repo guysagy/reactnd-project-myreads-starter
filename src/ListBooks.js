@@ -7,7 +7,7 @@ import './App.css'
 
 
 class ListBooks extends Component {
-    
+
     render() {
         return (
           <div className="list-books">
@@ -166,7 +166,7 @@ class ListBooks extends Component {
               </div>
             </div>
             <div className="open-search">
-              <a onClick={() => this.setState({ showSearchPage: true })}>Add a book</a>
+              <Link to="/search">Add a book</Link>
             </div>
           </div>
         )
