@@ -7,13 +7,18 @@ import './App.css'
 
 class ListBooks extends Component {
 
+  renderAuthors(author, index) {
+    return (
+      <div key={index}>{author}</div>
+    );
+  }
+
   renderBook(book,index) {
-    const bookImageUri = "http://books.google.com/books/content?id=" + book.imageId;
     return (
       <li key={index}>
         <div className="book">
           <div className="book-top">
-            <div className="book-cover" style={{ width: 128, height: 192, backgroundImage: 'url(' + bookImageUri + ')'}}></div>
+            <div className="book-cover" style={{ width: 128, height: 192, backgroundImage: 'url(' + book.imageLinks.thumbnail + ')'}}></div>
             <div className="book-shelf-changer">
               <select>
                 <option value="none" disabled>Move to...</option>
@@ -25,7 +30,7 @@ class ListBooks extends Component {
             </div>
           </div>
           <div className="book-title">{book.title}</div>
-          <div className="book-authors">{book.authors}</div>
+          <div className="book-authors">{book.authors.map((author,index)=>(this.renderAuthors(author,index)))}</div>
         </div>
       </li>
     );
@@ -38,7 +43,7 @@ class ListBooks extends Component {
         <div className="bookshelf-books">
           <ol className="books-grid">
           {
-            this.props.booksData.filter((book)=>(book.shelf==shelf)).map((book,index)=>(this.renderBook(book,index)))
+            this.props.booksData.filter((book)=>(book.shelf.toLowerCase()==shelf.toLowerCase().replace(/ /g, ""))).map((book,index)=>(this.renderBook(book,index)))
           }
           </ol>
         </div>
