@@ -5,7 +5,7 @@ import serializeForm from 'form-serialize'
 import * as BooksAPI from './BooksAPI'
 import './App.css'
 
-class ListBooks extends Component {
+class MyReads extends Component {
 
   renderAuthors(author, index) {
     return (
@@ -18,7 +18,7 @@ class ListBooks extends Component {
       <li key={index}>
         <div className="book">
           <div className="book-top">
-            <div className="book-cover" style={{ width: 128, height: 192, backgroundImage: 'url(' + book.imageLinks.thumbnail + ')'}}></div>
+            <div className="book-cover" style={{ width: 128, height: 192, backgroundImage: 'url(' + (book && book.imageLinks && book.imageLinks.thumbnail ? book.imageLinks.thumbnail : "" )+ ')'}}></div>
             <div className="book-shelf-changer">
               <select>
                 <option value="none" disabled>Move to...</option>
@@ -69,4 +69,4 @@ class ListBooks extends Component {
 
 }
 
-export default ListBooks
+export default MyReads

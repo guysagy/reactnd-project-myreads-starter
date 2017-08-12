@@ -2,10 +2,10 @@ import React, { Component } from 'react'
 import { Route } from 'react-router-dom'
 import { Link } from 'react-router-dom'
 import serializeForm from 'form-serialize'
-import SearchBooks from './SearchBooks'
-import ListBooks from './ListBooks'
 import * as BooksAPI from './BooksAPI'
 import './App.css'
+import MyReads from './MyReads'
+import Search from './Search'
 
 class BooksApp extends React.Component {
 
@@ -13,8 +13,8 @@ class BooksApp extends React.Component {
     books : [
     ],
     shelfs : [
-      "Currently Reading", 
-      "Want To Read", 
+      "Currently Reading",
+      "Want To Read",
       "Read"
     ]
   };
@@ -23,16 +23,16 @@ class BooksApp extends React.Component {
     BooksAPI.getAll().then((books) => {
       this.setState({books});
     })
-  } 
+  }
 
   render() {
     return (
       <div className="app">
         <Route exact path="/" render={() => (
-          <ListBooks shelfsData={this.state.shelfs} booksData={this.state.books} />
+          <MyReads shelfsData={this.state.shelfs} booksData={this.state.books} />
         )}/>
         <Route exact path="/search" render={() => (
-          <SearchBooks />
+          <Search />
         )}/>
       </div>
     );
