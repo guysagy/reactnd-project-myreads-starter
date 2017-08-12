@@ -42,9 +42,7 @@ class ListBooks extends Component {
         <h2 className="bookshelf-title">{shelf}</h2>
         <div className="bookshelf-books">
           <ol className="books-grid">
-          {
-            this.props.booksData.filter((book)=>(book.shelf.toLowerCase()==shelf.toLowerCase().replace(/ /g, ""))).map((book,index)=>(this.renderBook(book,index)))
-          }
+            {this.props.booksData.filter((book)=>(book.shelf.toLowerCase()==shelf.toLowerCase().replace(/ /g, ""))).map((book,index)=>(this.renderBook(book,index)))}
           </ol>
         </div>
       </div>
