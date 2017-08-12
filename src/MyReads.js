@@ -4,37 +4,9 @@ import { Link } from 'react-router-dom'
 import serializeForm from 'form-serialize'
 import * as BooksAPI from './BooksAPI'
 import './App.css'
+import Book from './Book'
 
 class MyReads extends Component {
-
-  renderAuthors(author, index) {
-    return (
-      <div key={index}>{author}</div>
-    );
-  }
-
-  renderBook(book,index) {
-    return (
-      <li key={index}>
-        <div className="book">
-          <div className="book-top">
-            <div className="book-cover" style={{ width: 128, height: 192, backgroundImage: 'url(' + (book && book.imageLinks && book.imageLinks.thumbnail ? book.imageLinks.thumbnail : "" )+ ')'}}></div>
-            <div className="book-shelf-changer">
-              <select>
-                <option value="none" disabled>Move to...</option>
-                <option value="currentlyReading">Currently Reading</option>
-                <option value="wantToRead">Want to Read</option>
-                <option value="read">Read</option>
-                <option value="none">None</option>
-              </select>
-            </div>
-          </div>
-          <div className="book-title">{book.title}</div>
-          <div className="book-authors">{book.authors.map((author,index)=>(this.renderAuthors(author,index)))}</div>
-        </div>
-      </li>
-    );
-  }
 
   renderShelf(shelf,index) {
     return (
@@ -42,7 +14,8 @@ class MyReads extends Component {
         <h2 className="bookshelf-title">{shelf}</h2>
         <div className="bookshelf-books">
           <ol className="books-grid">
-            {this.props.booksData.filter((book)=>(book.shelf.toLowerCase()==shelf.toLowerCase().replace(/ /g, ""))).map((book,index)=>(this.renderBook(book,index)))}
+            {this.props.books.filter((book)=>(book.shelf.toLowerCase()==shelf.toLowerCase().replace(/ /g, "")))
+              .map((book,index)=>(<Book key={index} bookIndex={index} bookInfo={book}></Book>))}
           </ol>
         </div>
       </div>
@@ -57,7 +30,7 @@ class MyReads extends Component {
         </div>
         <div className="list-books-content">
           <div>
-            {this.props.shelfsData.map((shelf,index)=>(this.renderShelf(shelf, index)))}
+            {this.props.shelfs.map((shelf,index)=>(this.renderShelf(shelf, index)))}
           </div>
         </div>
         <div className="open-search">

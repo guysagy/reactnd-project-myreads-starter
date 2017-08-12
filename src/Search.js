@@ -14,7 +14,7 @@ class Search extends Component {
   };
 
   search = (query) => {
-    // this.setState({query: query})
+    this.setState({query: query})
     BooksAPI.search(query, 20).then((books) => {
       this.setState({books:books, query: query});
     });
@@ -41,6 +41,7 @@ class Search extends Component {
       </div>
     )
   }
+
 }
 
 export default Search
