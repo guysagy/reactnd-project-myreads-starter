@@ -32,7 +32,7 @@ class BooksApp extends React.Component {
           <MyReads shelfs={this.state.shelfs} books={this.state.books} />
         )}/>
         <Route exact path="/search" render={() => (
-          <Search />
+          <Search allBooks={this.state.books}/>
         )}/>
       </div>
     );

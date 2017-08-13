@@ -8,14 +8,6 @@ import './App.css'
 
 class Book extends Component {
 
-  state = {
-    index : "",
-    title : "",
-    authors : [],
-    imageLinks : {},
-    shelf: "none"
-  };
-
   renderAuthors(author, index) {
     return (
       <div key={index}>{author}</div>
@@ -23,15 +15,14 @@ class Book extends Component {
   }
 
   renderBook(book,index) {
-    console.log(book);
     return (
       <li key={index}>
         <div className="book">
           <div className="book-top">
             <div className="book-cover" style={{ width: 128, height: 192, backgroundImage: 'url(' + ( book && book.imageLinks && book.imageLinks.thumbnail ? book.imageLinks.thumbnail : "" ) + ')'}}></div>
             <div className="book-shelf-changer">
-              <select>
-                <option value="none" disabled>Move to...</option>
+              <select value={book.shelf}>
+                <option value="moveTo" disabled>Move to...</option>
                 <option value="currentlyReading">Currently Reading</option>
                 <option value="wantToRead">Want to Read</option>
                 <option value="read">Read</option>
@@ -48,9 +39,7 @@ class Book extends Component {
 
   render() {
     return (
-        <div>
-            {this.renderBook(this.props.bookInfo, this.props.bookIndex)}
-        </div>
+        <div>{this.renderBook(this.props.bookInfo, this.props.bookIndex)}</div>
     );
   }
 

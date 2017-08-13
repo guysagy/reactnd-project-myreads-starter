@@ -12,7 +12,8 @@ class SearchResults extends Component {
     return (
         <div className="search-books-results">
           <ol className="books-grid">
-            {this.props.books && this.props.books.map && this.props.books.map((book,index)=>(<Book key={index} bookIndex={index} bookInfo={book}></Book>))}
+            {this.props.books && this.props.books.map && this.props.books.map((book,index)=>
+            	(<Book key={index} bookIndex={index} bookInfo={book} />))}
           </ol>
         </div>
     );
