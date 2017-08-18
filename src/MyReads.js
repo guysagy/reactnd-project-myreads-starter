@@ -1,21 +1,17 @@
 import React, { Component } from 'react'
-import { Route } from 'react-router-dom'
 import { Link } from 'react-router-dom'
-import serializeForm from 'form-serialize'
-import * as BooksAPI from './BooksAPI'
 import './App.css'
 import Book from './Book'
 
 class MyReads extends Component {
 
-  renderShelf(shelf,index) {
+  renderShelf(shelf, shelfIndex) {
     return (
-      <div className="bookshelf" key={index}>
+      <div className="bookshelf" key={shelfIndex}>
         <h2 className="bookshelf-title">{shelf}</h2>
         <div className="bookshelf-books">
           <ol className="books-grid">
-            {this.props.books.filter((book)=>(book.shelf.toLowerCase()==shelf.toLowerCase().replace(/ /g, "")))
-              .map((book,index)=>(<Book key={index} bookIndex={index} bookInfo={book}></Book>))}
+            {this.props.myReadBooks.filter((book)=>(book.shelf.toLowerCase()===shelf.toLowerCase().replace(/ /g, ""))).map((book,bookIndex)=>(<Book key={bookIndex} bookInfo={book}></Book>))}
           </ol>
         </div>
       </div>

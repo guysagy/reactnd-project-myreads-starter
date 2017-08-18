@@ -1,8 +1,4 @@
 import React, { Component } from 'react'
-import { Route } from 'react-router-dom'
-import { Link } from 'react-router-dom'
-import serializeForm from 'form-serialize'
-import * as BooksAPI from './BooksAPI'
 import './App.css'
 
 
@@ -14,14 +10,18 @@ class Book extends Component {
     );
   }
 
-  renderBook(book,index) {
+  onChangeBookShelf = function() {
+
+  }
+
+  renderBook(book) {
     return (
-      <li key={index}>
+      <li>
         <div className="book">
           <div className="book-top">
             <div className="book-cover" style={{ width: 128, height: 192, backgroundImage: 'url(' + ( book && book.imageLinks && book.imageLinks.thumbnail ? book.imageLinks.thumbnail : "" ) + ')'}}></div>
             <div className="book-shelf-changer">
-              <select value={book.shelf}>
+              <select value={book.shelf} onChange={this.onChangeBookShelf}>
                 <option value="moveTo" disabled>Move to...</option>
                 <option value="currentlyReading">Currently Reading</option>
                 <option value="wantToRead">Want to Read</option>
@@ -39,7 +39,7 @@ class Book extends Component {
 
   render() {
     return (
-        <div>{this.renderBook(this.props.bookInfo, this.props.bookIndex)}</div>
+        <div>{this.renderBook(this.props.bookInfo)}</div>
     );
   }
 
