@@ -15,20 +15,19 @@ class BooksApp extends React.Component {
       "Want To Read",
       "Read"
     ],
-    titleToShelfMap : {
-
+    idToShelfMap : {
     }
   };
 
   componentDidMount() {
     BooksAPI.getAll().then((myReadBooks) => {
-      this.setState({myReadBooks});
       console.log(myReadBooks);
-      var titleToShelfMap = {};
+      this.setState({myReadBooks});
+      var idToShelfMap = {};
       for (var i = 0 ; i < myReadBooks.length ; ++i) {
-        titleToShelfMap[myReadBooks[i]['title']] = myReadBooks[i]['shelf'];
+        idToShelfMap[myReadBooks[i]['id']] = myReadBooks[i]['shelf'];
       }
-      this.setState({titleToShelfMap});
+      this.setState({idToShelfMap});
     });
   }
 
@@ -39,7 +38,7 @@ class BooksApp extends React.Component {
           <MyReads shelfs={this.state.shelfs} myReadBooks={this.state.myReadBooks} />
         )}/>
         <Route exact path="/search" render={() => (
-          <Search titleToShelfMap={this.state.titleToShelfMap}/>
+          <Search idToShelfMap={this.state.idToShelfMap}/>
         )}/>
       </div>
     );

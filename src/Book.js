@@ -1,17 +1,40 @@
 import React, { Component } from 'react'
+import * as BooksAPI from './BooksAPI'
 import './App.css'
 
 
 class Book extends Component {
 
+  state = {
+    bookInfo : {}
+  };
+
+  constructor(props) {
+    super(props);
+    this.onChangeBookShelf = this.onChangeBookShelf.bind(this);
+  }
+
+  onChangeBookShelf = function(event) {
+    event.preventDefault();
+    var targetShelf = event.target.value;
+
+    this.setState((prevState, props) => {
+      var bookInfo = prevState.bookInfo;
+      BooksAPI.update(bookInfo, targetShelf);
+      bookInfo["shelf"] = targetShelf;
+      return {bookInfo: bookInfo};
+    });
+
+  }
+
+  componentWillMount() {
+    this.setState({bookInfo:this.props.bookInfo});
+  }
+
   renderAuthors(author, index) {
     return (
       <div key={index}>{author}</div>
     );
-  }
-
-  onChangeBookShelf = function() {
-
   }
 
   renderBook(book) {
@@ -38,8 +61,9 @@ class Book extends Component {
   }
 
   render() {
+    const { bookInfo } = this.state
     return (
-        <div>{this.renderBook(this.props.bookInfo)}</div>
+        <div>{this.renderBook(bookInfo)}</div>
     );
   }
 

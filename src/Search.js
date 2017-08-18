@@ -7,8 +7,8 @@ import SearchResults from './SearchResults'
 class Search extends Component {
 
   state = {
-    resultsBooks : [],
-    query: ''
+    query: '',
+    resultsBooks : []
   };
 
   search = (query) => {
@@ -22,13 +22,15 @@ class Search extends Component {
           resultsBooks =[];
         } else {
           for (var i = 0 ; i < resultsBooks.length ; ++i) {
-            var shelf = this.props.titleToShelfMap[resultsBooks[i]['title']];
-            resultsBooks[i].shelf = (shelf === undefined) ? "none" : shelf;
+            var bookId = resultsBooks[i]['id']
+            var bookShelf = this.props.idToShelfMap[bookId];
+            resultsBooks[i].shelf = (bookShelf === undefined || bookShelf === null) ? "none" : bookShelf;
           }
         }
         // Note: ideally, the server response would include the query string.
         // In asynchronous programmng, the context (here: the query string) needs to be sent
         // to the server, and the server should reflect it back. Currently, it does not.
+        this.setState({query: query, resultsBooks:[]});   // TODO: Without this, search results updates won't make their way to the UI. Why ???
         this.setState({query: query, resultsBooks:resultsBooks});
       });
     }
@@ -49,7 +51,7 @@ class Search extends Component {
               However, remember that the BooksAPI.search method DOES search by title or author. So,
               don't worry if you don't find a specific author or title. Every search is limited by search terms.
             */}
-            <input type="text" placeholder="Search by title or author" onChange={(event) => this.search(event.target.value)} />
+            <input type="search" placeholder="Search by title or author" onKeyUp={(event) => this.search(event.target.value)} />
           </div>
         </div>
         <SearchResults resultsBooks={this.state.resultsBooks} />
