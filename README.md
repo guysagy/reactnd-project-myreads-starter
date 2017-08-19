@@ -4,9 +4,9 @@ Submitted by Guy Sagy (guysagy@hotamil.com), August 2017. <br/>
 This README includes instructions for installing, launching and using the application. <br/>
 
 ## Project Specifications
-The application was created with the starter template supplied by course instructors [a link](https://github.com/udacity/reactnd-project-myreads-starter). <br/>
+The application was created with the [starter template](https://github.com/udacity/reactnd-project-myreads-starter) supplied by course instructors. <br/>
 To run this application, Node.js must be installaed on the machine. <br/>
-After installing Node.js, check out the code [a link](https://github.com/guysagy/reactnd-project-myreads-starter), and run the following CLI commands from within the check out directory: <br/>
+After installing Node.js, check out the [project code](https://github.com/guysagy/reactnd-project-myreads-starter), and run the following CLI commands from within the check out directory: <br/>
 (i) "npm install", and then <br/>
 (ii) "npm start". <br/>
 This is sufficient to get it installed, running and launched on hosting machine's default browser. <br/>
