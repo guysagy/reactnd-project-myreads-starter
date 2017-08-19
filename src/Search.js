@@ -21,11 +21,12 @@ class Search extends Component {
         if (Array.isArray(resultsBooks) !== true || resultsBooks.length === 0) {
           resultsBooks =[];
         } else {
-          for (let i = 0 ; i < resultsBooks.length ; ++i) {
-            const bookId = resultsBooks[i]['id']
-            const bookShelf = this.props.idToShelfMap[bookId];
-            resultsBooks[i].shelf = (bookShelf === undefined || bookShelf === null) ? "none" : bookShelf;
-          }
+          let This = this;
+          // Search results books don'e necessarily have the shelf property.
+          resultsBooks.forEach(function(book, index, array){
+            const bookShelf = This.props.idToShelfMap[book.id];
+            book.shelf = (bookShelf === undefined || bookShelf === null) ? "none" : bookShelf;
+          });
         }
         // Note: ideally, the server response would include the query string.
         // In asynchronous programmng, the context (here: the query string) needs to be sent
