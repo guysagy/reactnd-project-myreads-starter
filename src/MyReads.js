@@ -11,7 +11,11 @@ class MyReads extends Component {
         <h2 className="bookshelf-title">{shelf}</h2>
         <div className="bookshelf-books">
           <ol className="books-grid">
-            {this.props.myReadBooks.filter((book)=>(book.shelf.toLowerCase()===shelf.toLowerCase().replace(/ /g, ""))).map((book,bookIndex)=>(<Book key={bookIndex} bookInfo={book} onShelfChange={this.props.onShelfChange}></Book>))}
+            {this.props.myReadBooks
+              .filter((book)=>(book.shelf.toLowerCase()===shelf.toLowerCase().replace(/ /g, "")))
+              .map((book,bookIndex)=>(<Book key={bookIndex} bookInfo={book} onShelfChange={this.props.onShelfChange}></Book>)
+              )
+            }
           </ol>
         </div>
       </div>

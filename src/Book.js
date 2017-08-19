@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import * as BooksAPI from './BooksAPI'
 import './App.css'
 
-
 class Book extends Component {
 
   state = {
@@ -17,15 +16,17 @@ class Book extends Component {
 
   onChangeBookShelf = function(event) {
     event.preventDefault();
-    var targetShelf = event.target.value;
+    const targetShelf = event.target.value;
     BooksAPI.update(this.state.bookInfo, targetShelf).then((bookInfo)=>{
+      const updateBookInfo = this.state.bookInfo;
+      updateBookInfo.shelf = targetShelf;
+      this.setState({bookInfo:updateBookInfo});
       this.state.onShelfChange();
     });
   }
 
   componentWillMount() {
-    var copy = JSON.parse(JSON.stringify(this.props.bookInfo));
-    this.setState({bookInfo:copy, onShelfChange:this.props.onShelfChange});
+    this.setState({bookInfo:this.props.bookInfo, onShelfChange:this.props.onShelfChange});
   }
 
   renderAuthors(author, index) {

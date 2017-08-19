@@ -8,39 +8,27 @@ import Search from './Search'
 class BooksApp extends React.Component {
 
   state = {
-    myReadBooks : [
-    ],
-    shelfs : [
-      "Currently Reading",
-      "Want To Read",
-      "Read"
-    ],
-    idToShelfMap : {  // books ID to book shelf map
-    }
+    myReadBooks : [],
+    shelfs : ["Currently Reading","Want To Read","Read"],
+    idToShelfMap : {}  // Book ID to book shelf mapping.
   };
 
   constructor(props) {
     super(props);
-    this.shelfChangeHandler = this.shelfChangeHandler.bind(this);
+    this.loadShelfsData = this.loadShelfsData.bind(this);
   }
 
   componentDidMount() {
-    BooksAPI.getAll().then((myReadBooks) => {
-      var idToShelfMap = {};
-      for (var i = 0 ; i < myReadBooks.length ; ++i) {
-        idToShelfMap[myReadBooks[i]['id']] = myReadBooks[i]['shelf'];
-      }
-      this.setState({myReadBooks:myReadBooks, idToShelfMap:idToShelfMap});
-    });
+    this.loadShelfsData();
   }
 
-  shelfChangeHandler() {
+  loadShelfsData() {
     BooksAPI.getAll().then((myReadBooks) => {
-      var idToShelfMap = {};
+      const idToShelfMap = {};
       for (var i = 0 ; i < myReadBooks.length ; ++i) {
         idToShelfMap[myReadBooks[i]['id']] = myReadBooks[i]['shelf'];
       }
-      this.setState({myReadBooks:[], idToShelfMap:{}});   // WTF??? For some reason without this the movement of the books when chaining shelfs is screwed up.
+      this.setState({myReadBooks:[], idToShelfMap:{}});   // TODO: For some reason without this the movement of the books when chaining shelfs is screwed up.
       this.setState({myReadBooks:myReadBooks, idToShelfMap:idToShelfMap});
     });
   }
@@ -49,10 +37,10 @@ class BooksApp extends React.Component {
     return (
       <div className="app">
         <Route exact path="/" render={() => (
-          <MyReads shelfs={this.state.shelfs} myReadBooks={this.state.myReadBooks}  onShelfChange={this.shelfChangeHandler}/>
+          <MyReads shelfs={this.state.shelfs} myReadBooks={this.state.myReadBooks} onShelfChange={this.loadShelfsData}/>
         )}/>
         <Route exact path="/search" render={() => (
-          <Search idToShelfMap={this.state.idToShelfMap} onShelfChange={this.shelfChangeHandler} />
+          <Search idToShelfMap={this.state.idToShelfMap} onShelfChange={this.loadShelfsData} />
         )}/>
       </div>
     );
