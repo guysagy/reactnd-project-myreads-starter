@@ -18,8 +18,9 @@ class Book extends Component {
   onChangeBookShelf = function(event) {
     event.preventDefault();
     var targetShelf = event.target.value;
-    BooksAPI.update(this.state.bookInfo, targetShelf);
-    this.state.onShelfChange(this.state.bookInfo, targetShelf);
+    BooksAPI.update(this.state.bookInfo, targetShelf).then((bookInfo)=>{
+      this.state.onShelfChange();
+    });
   }
 
   componentWillMount() {

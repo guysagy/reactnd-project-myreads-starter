@@ -34,42 +34,15 @@ class BooksApp extends React.Component {
     });
   }
 
-  shelfChangeHandler(book, targetShelf) {
-
-     console.log(book.toString() + " " + targetShelf);
-
-    // A book in MyReads page changes shelf:
-    // Deep copy the MyRead books array:
-    var newMyReadBooks = [];
-    for (var i = 0 ; i < this.state.myReadBooks.length ; ++i) {
-      var copy = JSON.parse(JSON.stringify(this.state.myReadBooks[i]));
-      newMyReadBooks.push(copy);
-    }
-
-    // Change only the book with the correct id:
-    var found = false;
-    for (var index = 0 ; index < newMyReadBooks.length ; ++index) {
-      if (newMyReadBooks[index].id === book.id) {
-        newMyReadBooks[index].shelf = targetShelf;
-        found = true;
-        break;
+  shelfChangeHandler() {
+    BooksAPI.getAll().then((myReadBooks) => {
+      var idToShelfMap = {};
+      for (var i = 0 ; i < myReadBooks.length ; ++i) {
+        idToShelfMap[myReadBooks[i]['id']] = myReadBooks[i]['shelf'];
       }
-    }
-
-    // A book in Search Results page changes shelf:
-    if (found === false) {
-      var copy = JSON.parse(JSON.stringify(book));
-      copy.shelf = targetShelf;
-      newMyReadBooks.push(copy);
-    }
-
-    // Rebuild the Id to shelf map
-    var idToShelfMap = {};
-    for (var counter = 0 ; counter < newMyReadBooks.length ; ++counter) {
-      idToShelfMap[newMyReadBooks[counter]['id']] = newMyReadBooks[counter]['shelf'];
-    }
-
-    this.setState({myReadBooks:newMyReadBooks, idToShelfMap:idToShelfMap});
+      this.setState({myReadBooks:[], idToShelfMap:{}});   // WTF??? For some reason without this the movement of the books when chaining shelfs is screwed up.
+      this.setState({myReadBooks:myReadBooks, idToShelfMap:idToShelfMap});
+    });
   }
 
   render() {
