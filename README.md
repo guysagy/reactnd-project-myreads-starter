@@ -1,17 +1,16 @@
-# React Fundamentals Final Project: "MyReads: A Book Tracking App"
-1st Project for React Nanodegree Program @ Udacity.com <br/>
+# React Fundamentals Final Project: "MyReads: A Book Tracking WebApp"
+1st Project for React Nanodegree Program @ Udacity. This application is based on the [starter template](https://github.com/udacity/reactnd-project-myreads-starter) supplied by course instructors. <br/>
 Submitted by Guy Sagy (guysagy@hotamil.com), August 2017. <br/>
 This README includes instructions for installing, launching and using the application. <br/>
 
-## Project Specifications
-The application was created with the [starter template](https://github.com/udacity/reactnd-project-myreads-starter) supplied by course instructors. <br/>
-To run this application, Node.js must be installaed on the machine. <br/>
-After installing Node.js, check out the [project code](https://github.com/guysagy/reactnd-project-myreads-starter), and run the following CLI commands from within the check out directory: <br/>
+## WebApp Installation & Launch Guide
+As a pre-condition to run this application on a server machine, [Node.js](https://nodejs.org/) must be installed. Please install as needed.<br/>
+After having Node.js installed, check out the [project code](https://github.com/guysagy/reactnd-project-myreads-starter), and run the following CLI commands from within the check out directory: <br/>
 (i) "npm install", and then <br/>
 (ii) "npm start". <br/>
 This is sufficient to get it installed, running and launched on hosting machine's default browser. <br/>
 
-## Application Usage Guide
+## WebApp Usage Guide
 ### Main Page
 The main page shows 3 shelves for books - “Currently Reading”, “Want To Read”, and “Read”. <br/>
 A select control on each book allows users to move books between shelves. The control is next to each book displayed. <br/>
