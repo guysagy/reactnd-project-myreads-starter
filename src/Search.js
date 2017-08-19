@@ -54,7 +54,7 @@ class Search extends Component {
             <input type="search" placeholder="Search by title or author" onKeyUp={(event) => this.search(event.target.value)} />
           </div>
         </div>
-        <SearchResults resultsBooks={this.state.resultsBooks} />
+        <SearchResults resultsBooks={this.state.resultsBooks} onShelfChange={this.props.onShelfChange}/>
       </div>
     )
   }

@@ -6,7 +6,8 @@ import './App.css'
 class Book extends Component {
 
   state = {
-    bookInfo : {}
+    bookInfo : {},
+    onShelfChange : null
   };
 
   constructor(props) {
@@ -17,18 +18,13 @@ class Book extends Component {
   onChangeBookShelf = function(event) {
     event.preventDefault();
     var targetShelf = event.target.value;
-
-    this.setState((prevState, props) => {
-      var bookInfo = prevState.bookInfo;
-      BooksAPI.update(bookInfo, targetShelf);
-      bookInfo["shelf"] = targetShelf;
-      return {bookInfo: bookInfo};
-    });
-
+    BooksAPI.update(this.state.bookInfo, targetShelf);
+    this.state.onShelfChange(this.state.bookInfo, targetShelf);
   }
 
   componentWillMount() {
-    this.setState({bookInfo:this.props.bookInfo});
+    var copy = JSON.parse(JSON.stringify(this.props.bookInfo));
+    this.setState({bookInfo:copy, onShelfChange:this.props.onShelfChange});
   }
 
   renderAuthors(author, index) {
@@ -39,7 +35,7 @@ class Book extends Component {
 
   renderBook(book) {
     return (
-      <li>
+      <li key={book.id}>
         <div className="book">
           <div className="book-top">
             <div className="book-cover" style={{ width: 128, height: 192, backgroundImage: 'url(' + ( book && book.imageLinks && book.imageLinks.thumbnail ? book.imageLinks.thumbnail : "" ) + ')'}}></div>

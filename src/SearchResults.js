@@ -8,7 +8,7 @@ class SearchResults extends Component {
     return (
         <div className="search-books-results">
           <ol className="books-grid">
-            {this.props.resultsBooks.map((book,index)=>(<Book key={index} bookInfo={book} />))}
+            {this.props.resultsBooks.map((book,index)=>(<Book key={index} bookInfo={book} onShelfChange={this.props.onShelfChange}/>))}
           </ol>
         </div>
     );
