@@ -21,7 +21,7 @@ class Search extends Component {
         if (Array.isArray(resultsBooks) !== true || resultsBooks.length === 0) {
           resultsBooks =[];
         } else {
-          for (var i = 0 ; i < resultsBooks.length ; ++i) {
+          for (let i = 0 ; i < resultsBooks.length ; ++i) {
             const bookId = resultsBooks[i]['id']
             const bookShelf = this.props.idToShelfMap[bookId];
             resultsBooks[i].shelf = (bookShelf === undefined || bookShelf === null) ? "none" : bookShelf;
@@ -30,7 +30,9 @@ class Search extends Component {
         // Note: ideally, the server response would include the query string.
         // In asynchronous programmng, the context (here: the query string) needs to be sent
         // to the server, and the server should reflect it back. Currently, it does not.
-        this.setState({query: query, resultsBooks:[]});   // TODO: Without this, UI does not always get updated with latest search results. Why ???
+        // TODO: For some reason, without the following line,  UI does not always get updated with latest search results.
+        // Needs to be checked why.
+        this.setState({query: query, resultsBooks:[]});
         this.setState({query: query, resultsBooks:resultsBooks});
       });
     }

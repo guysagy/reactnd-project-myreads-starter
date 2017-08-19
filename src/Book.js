@@ -45,7 +45,7 @@ class Book extends Component {
               <select value={book.shelf} onChange={this.onChangeBookShelf}>
                 <option value="moveTo" disabled>Move to...</option>
                 <option value="currentlyReading">Currently Reading</option>
-                <option value="wantToRead">Want to Read</option>
+                <option value="wantToRead">Want To Read</option>
                 <option value="read">Read</option>
                 <option value="none">None</option>
               </select>
