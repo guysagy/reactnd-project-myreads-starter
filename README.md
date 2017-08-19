@@ -1,4 +1,4 @@
-# React Fundamentals Final Project: "MyReads: A Book Tracking WebApp"
+# MyReads: A Book Tracking WebApp
 1st Project for React Nanodegree Program @ Udacity. This application is based on the [starter template](https://github.com/udacity/reactnd-project-myreads-starter) supplied by course instructors. <br/>
 Submitted by Guy Sagy (guysagy@hotamil.com), August 2017. <br/>
 This README includes instructions for installing, launching and using the application. <br/>
