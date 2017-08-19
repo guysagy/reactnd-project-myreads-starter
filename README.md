@@ -22,6 +22,6 @@ The search page has a search input field. As the user types into the search fiel
 Search results on the search page allow the user to re-categorize a book's shelf by selecting “currently reading”, “want to read”, or “read” to place the book in a certain shelf. <br/>
 When an item is categorized on the search page, and the user navigates to the main page, books have the same state on both the search page and the main application page: If a book is on a bookshelf, that is reflected in both pages. <br/>
 
-#### Page Routing
-The main page contains a link (a green '+' image) to the search page. When the link is clicked, the search page is displayed and the URL in the browser’s address bar is /search. <br/>
-The search page contains a link to the main page (a left/back pointing arrow). When the link is clicked, the main page is displayed and the URL in the browser’s address bar is /. <br/>
+### Page Routing
+The main page contains a link (a green '+' image) to the search page. When the link is clicked, the search page is displayed and the URL in the browser’s address bar is "/search". <br/>
+The search page contains a link to the main page (a left/back pointing arrow). When the link is clicked, the main page is displayed and the URL in the browser’s address bar is "/". <br/>
