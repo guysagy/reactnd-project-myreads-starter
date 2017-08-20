@@ -7,9 +7,9 @@ class SearchResults extends Component {
   render() {
     return (
         <div className="search-books-results">
-          <ol className="books-grid">
+          <ul className="books-grid">
             {this.props.resultsBooks.map((book,index)=>(<Book key={index} bookInfo={book} onShelfChange={this.props.onShelfChange}/>))}
-          </ol>
+          </ul>
         </div>
     );
   }

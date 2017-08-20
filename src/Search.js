@@ -15,12 +15,12 @@ class Search extends Component {
     this.setState({query:query, resultsBooks:[]}, function() {
       if (query.length !== 0) {
         BooksAPI.search(query, 20).then((resultsBooks) => {
-          // Ignore responses out of UI input order.
-          if (query === this.state.query) { 
+          // Ignore responses out of UI input order:
+          if (query === this.state.query) {
             if (Array.isArray(resultsBooks) !== true || resultsBooks.length === 0) {
               resultsBooks =[];
             } else {
-              let This = this;
+              const This = this;
               // Search results books don't necessarily have the shelf property
               // (not all books are on a shelf).
               resultsBooks.forEach(function(book, index, array){

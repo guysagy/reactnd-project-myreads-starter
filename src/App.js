@@ -23,12 +23,9 @@ class BooksApp extends React.Component {
   }
 
   loadShelfsData() {
-    // First, clean the shelfs ...
-    this.setState({myReadBooks:[], idToShelfMap:{}});
-    // Second, load the updated shelfs ...
     BooksAPI.getAll().then((myReadBooks) => {
       const idToShelfMap = {};
-      myReadBooks.forEach (function(book, index, array){
+      myReadBooks.forEach(function(book, index, array){
         idToShelfMap[book.id] = book.shelf;
       });
       this.setState({myReadBooks, idToShelfMap});

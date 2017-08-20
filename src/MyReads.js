@@ -10,13 +10,14 @@ class MyReads extends Component {
       <div className="bookshelf" key={shelfIndex}>
         <h2 className="bookshelf-title">{shelf}</h2>
         <div className="bookshelf-books">
-          <ol className="books-grid">
-            {this.props.myReadBooks
+          <ul className="books-grid">
+            {
+              // Filter books by shelf, then map books to Book components:
+              this.props.myReadBooks
               .filter((book)=>(book.shelf.toLowerCase()===shelf.toLowerCase().replace(/ /g, "")))
-              .map((book,bookIndex)=>(<Book key={bookIndex} bookInfo={book} onShelfChange={this.props.onShelfChange}></Book>)
-              )
+              .map((book)=>(<Book key={book.id} bookInfo={book} onShelfChange={this.props.onShelfChange}></Book>))
             }
-          </ol>
+          </ul>
         </div>
       </div>
     );
