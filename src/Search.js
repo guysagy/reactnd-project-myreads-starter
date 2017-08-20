@@ -11,33 +11,28 @@ class Search extends Component {
     resultsBooks : []
   };
 
-  search = (query) => {
-
-    if (typeof query !== "string" || query.length === 0) {
-      this.setState({query: "", resultsBooks: []});
-    } else {
-
-      BooksAPI.search(query, 20).then((resultsBooks) => {
-        if (Array.isArray(resultsBooks) !== true || resultsBooks.length === 0) {
-          resultsBooks =[];
-        } else {
-          let This = this;
-          // Search results books don'e necessarily have the shelf property.
-          resultsBooks.forEach(function(book, index, array){
-            const bookShelf = This.props.idToShelfMap[book.id];
-            book.shelf = (bookShelf === undefined || bookShelf === null) ? "none" : bookShelf;
-          });
-        }
-        // Note: ideally, the server response would include the query string.
-        // In asynchronous programmng, the context (here: the query string) needs to be sent
-        // to the server, and the server should reflect it back. Currently, it does not.
-        // TODO: For some reason, without the following line,  UI does not always get updated with latest search results.
-        // Needs to be checked why.
-        this.setState({query: query, resultsBooks:[]});
-        this.setState({query: query, resultsBooks:resultsBooks});
-      });
-    }
-
+  search(query) {
+    this.setState({query:query, resultsBooks:[]}, function() {
+      if (query.length !== 0) {
+        BooksAPI.search(query, 20).then((resultsBooks) => {
+          // Ignore responses out of UI input order.
+          if (query === this.state.query) { 
+            if (Array.isArray(resultsBooks) !== true || resultsBooks.length === 0) {
+              resultsBooks =[];
+            } else {
+              let This = this;
+              // Search results books don't necessarily have the shelf property
+              // (not all books are on a shelf).
+              resultsBooks.forEach(function(book, index, array){
+                const bookShelf = This.props.idToShelfMap[book.id];
+                book.shelf = (bookShelf === undefined || bookShelf === null) ? "none" : bookShelf;
+              });
+            }
+            this.setState({resultsBooks:resultsBooks});
+          }
+        }); // End search().then()
+      }  // End if.
+    });
   }
 
   render() {
@@ -54,7 +49,7 @@ class Search extends Component {
               However, remember that the BooksAPI.search method DOES search by title or author. So,
               don't worry if you don't find a specific author or title. Every search is limited by search terms.
             */}
-            <input type="search" placeholder="Search by title or author" onKeyUp={(event) => this.search(event.target.value)} />
+            <input type="search" placeholder="Search by title or author" onChange={(event) => this.search(event.target.value)} />
           </div>
         </div>
         <SearchResults resultsBooks={this.state.resultsBooks} onShelfChange={this.props.onShelfChange}/>

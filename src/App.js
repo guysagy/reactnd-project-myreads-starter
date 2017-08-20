@@ -23,15 +23,15 @@ class BooksApp extends React.Component {
   }
 
   loadShelfsData() {
+    // First, clean the shelfs ...
+    this.setState({myReadBooks:[], idToShelfMap:{}});
+    // Second, load the updated shelfs ...
     BooksAPI.getAll().then((myReadBooks) => {
       const idToShelfMap = {};
       myReadBooks.forEach (function(book, index, array){
         idToShelfMap[book.id] = book.shelf;
       });
-      // TODO: For some reason, without the following line, the movement of the books when chaining shelfs is incorrect in some scenarios.
-      // Needs to be checked why.
-      this.setState({myReadBooks:[], idToShelfMap:{}});
-      this.setState({myReadBooks:myReadBooks, idToShelfMap:idToShelfMap});
+      this.setState({myReadBooks, idToShelfMap});
     });
   }
 
