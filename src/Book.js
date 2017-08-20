@@ -2,6 +2,10 @@ import React, { Component } from 'react'
 import * as BooksAPI from './BooksAPI'
 import './App.css'
 
+/*
+Book component - for book data display.
+*/
+
 class Book extends Component {
 
   state = {
@@ -14,7 +18,7 @@ class Book extends Component {
     this.onChangeBookShelf = this.onChangeBookShelf.bind(this);
   }
 
-  onChangeBookShelf = function(event) {
+  onChangeBookShelf(event) {
     event.preventDefault();
     const targetShelf = event.target.value;
     BooksAPI.update(this.state.bookInfo, targetShelf).then((bookInfo)=>{

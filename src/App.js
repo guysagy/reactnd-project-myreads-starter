@@ -5,6 +5,10 @@ import './App.css'
 import MyReads from './MyReads'
 import Search from './Search'
 
+/*
+BooksApp component - top level application component.
+*/
+
 class BooksApp extends React.Component {
 
   state = {

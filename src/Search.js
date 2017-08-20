@@ -4,6 +4,13 @@ import * as BooksAPI from './BooksAPI'
 import './App.css'
 import SearchResults from './SearchResults'
 
+/*
+Search page component.
+Search component is composed of:
+** Input element - for search term.
+** SearchResults component - for search results display.
+*/
+
 class Search extends Component {
 
   state = {
@@ -11,10 +18,12 @@ class Search extends Component {
     resultsBooks : []
   };
 
-  search(query) {
-    this.setState({query:query, resultsBooks:[]}, function() {
-      if (query.length !== 0) {
-        BooksAPI.search(query, 20).then((resultsBooks) => {
+  submit(query) {
+    this.setState({query:query}, function() {
+      if (this.state.query.length === 0) {
+        this.setState({resultsBooks:[]});
+      } else {
+        BooksAPI.search(this.state.query, 20).then((resultsBooks) => {
           // Ignore responses out of UI input order:
           if (query === this.state.query) {
             if (Array.isArray(resultsBooks) !== true || resultsBooks.length === 0) {
@@ -49,7 +58,7 @@ class Search extends Component {
               However, remember that the BooksAPI.search method DOES search by title or author. So,
               don't worry if you don't find a specific author or title. Every search is limited by search terms.
             */}
-            <input type="search" placeholder="Search by title or author" onChange={(event) => this.search(event.target.value)} />
+            <input autoFocus type="search" placeholder="Search by title or author" onChange={(event) => this.submit(event.target.value)} />
           </div>
         </div>
         <SearchResults resultsBooks={this.state.resultsBooks} onShelfChange={this.props.onShelfChange}/>
