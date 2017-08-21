@@ -44,7 +44,7 @@ class BooksApp extends React.Component {
     return (typeof this.state.idToShelfMap[book.id] === "string" && this.state.idToShelfMap[book.id] !== "none");
   }
 
-  addBookToShelfs = function(book) {
+  addBookToShelfs(book) {
 
     let idToShelfMap = {};
     for (let key in this.state.idToShelfMap) {
