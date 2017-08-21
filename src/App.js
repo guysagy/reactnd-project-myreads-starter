@@ -20,6 +20,10 @@ class BooksApp extends React.Component {
   constructor(props) {
     super(props);
     this.loadShelfsData = this.loadShelfsData.bind(this);
+    this.isBookOnMyShelfs = this.isBookOnMyShelfs.bind(this);
+    this.addBookToShelfs = this.addBookToShelfs.bind(this);
+    this.updateBookShelf = this.updateBookShelf.bind(this);
+    this.onShelfChange = this.onShelfChange.bind(this);
   }
 
   componentDidMount() {
@@ -36,14 +40,59 @@ class BooksApp extends React.Component {
     });
   }
 
+  isBookOnMyShelfs(book) {
+    return (typeof this.state.idToShelfMap[book.id] === "string" && this.state.idToShelfMap[book.id] !== "none");
+  }
+
+  addBookToShelfs = function(book) {
+
+    let idToShelfMap = {};
+    for (let key in this.state.idToShelfMap) {
+      idToShelfMap[key] = this.state.idToShelfMap[key];
+    }
+    let myReadBooks = this.state.myReadBooks.slice();
+
+    idToShelfMap[book.id] = book.shelf;
+    myReadBooks.push(book);
+
+    this.setState({idToShelfMap:idToShelfMap, myReadBooks:myReadBooks});
+  }
+
+  updateBookShelf(book) {
+
+    let idToShelfMap = {};
+    for (let key in this.state.idToShelfMap) {
+      idToShelfMap[key] = this.state.idToShelfMap[key];
+    }
+    let myReadBooks = this.state.myReadBooks.slice();
+
+    idToShelfMap[book.id] = book.shelf;
+    for (let index = 0 ; index < myReadBooks.length ; ++index) {
+      if (myReadBooks[index].id === book.id) {
+        myReadBooks[index].shelf = book.shelf;
+        break;
+      }
+    }
+
+    this.setState({idToShelfMap:idToShelfMap, myReadBooks:myReadBooks});
+  }
+
+  onShelfChange(book) {
+    if (this.isBookOnMyShelfs(book) === true) {
+      this.updateBookShelf(book);
+    } else {
+      this.addBookToShelfs(book);
+    }
+  }
+
   render() {
     return (
       <div className="app">
         <Route exact path="/" render={() => (
-          <MyReads shelfs={this.state.shelfs} myReadBooks={this.state.myReadBooks} onShelfChange={this.loadShelfsData}/>
+          <MyReads shelfs={this.state.shelfs} myReadBooks={this.state.myReadBooks} onShelfChange={this.onShelfChange}/>
         )}/>
         <Route exact path="/search" render={() => (
-          <Search idToShelfMap={this.state.idToShelfMap} onShelfChange={this.loadShelfsData} />
+          <Search idToShelfMap={this.state.idToShelfMap} onShelfChange={this.onShelfChange} />
         )}/>
       </div>
     );

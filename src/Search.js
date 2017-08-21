@@ -40,7 +40,7 @@ class Search extends Component {
             this.setState({resultsBooks:resultsBooks});
           }
         }); // End search().then()
-      }  // End if.
+      }  // End else leg.
     });
   }
 

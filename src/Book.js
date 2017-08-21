@@ -9,8 +9,7 @@ Book component - for book data display.
 class Book extends Component {
 
   state = {
-    bookInfo : {},
-    onShelfChange : null
+    bookInfo : {}
   };
 
   constructor(props) {
@@ -25,12 +24,12 @@ class Book extends Component {
       const updateBookInfo = this.state.bookInfo;
       updateBookInfo.shelf = targetShelf;
       this.setState({bookInfo:updateBookInfo});
-      this.state.onShelfChange();
+      this.props.onShelfChange(updateBookInfo);
     });
   }
 
   componentWillMount() {
-    this.setState({bookInfo:this.props.bookInfo, onShelfChange:this.props.onShelfChange});
+    this.setState({bookInfo:this.props.bookInfo});
   }
 
   renderAuthors(author, index) {
