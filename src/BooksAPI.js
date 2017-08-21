@@ -1,6 +1,14 @@
 
 const api = "https://reactnd-books-api.udacity.com"
 
+// handleErrors utility function as suggested by the following blog post:
+// https://www.tjvantoll.com/2015/09/13/fetch-and-errors/
+function handleErrors(response) {
+    if (!response.ok) {
+        throw Error(response.statusText);
+    }
+    return response;
+}
 
 // Generate a unique token for storing your bookshelf data on the backend server.
 let token = localStorage.token
@@ -14,11 +22,13 @@ const headers = {
 
 export const get = (bookId) =>
   fetch(`${api}/books/${bookId}`, { headers })
+    .then(handleErrors)
     .then(res => res.json())
     .then(data => data.book)
 
 export const getAll = () =>
   fetch(`${api}/books`, { headers })
+    .then(handleErrors)
     .then(res => res.json())
     .then(data => data.books)
 
@@ -30,7 +40,9 @@ export const update = (book, shelf) =>
       'Content-Type': 'application/json'
     },
     body: JSON.stringify({ shelf })
-  }).then(res => res.json())
+  })
+  .then(handleErrors)
+  .then(res => res.json())
 
 export const search = (query, maxResults) =>
   fetch(`${api}/search`, {
@@ -40,5 +52,7 @@ export const search = (query, maxResults) =>
       'Content-Type': 'application/json'
     },
     body: JSON.stringify({ query, maxResults })
-  }).then(res => res.json())
-    .then(data => data.books)
+  })
+  .then(handleErrors)
+  .then(res => res.json())
+  .then(data => data.books)

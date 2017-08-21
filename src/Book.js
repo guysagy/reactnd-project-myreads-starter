@@ -20,13 +20,17 @@ class Book extends Component {
   onChangeBookShelf(event) {
     event.preventDefault();
     const targetShelf = event.target.value;
-    BooksAPI.update(this.state.bookInfo, targetShelf).then((bookInfo)=>{
-      // TODO: implement error case handling. I assume here success ....
-      const updateBookInfo = this.state.bookInfo;
-      updateBookInfo.shelf = targetShelf;
-      this.setState({bookInfo:updateBookInfo});
-      this.props.onShelfChange(updateBookInfo);
-    });
+    BooksAPI.update(this.state.bookInfo, targetShelf)
+            .then((books)=>{
+              // I am ignoring the returned Json - we can do better without it.
+              const updateBookInfo = this.state.bookInfo;
+              updateBookInfo.shelf = targetShelf;
+              this.setState({bookInfo:updateBookInfo});
+              this.props.onShelfChange(updateBookInfo);
+            })
+            .catch(function(error) {
+              console.log(error);
+            });
   }
 
   componentWillMount() {

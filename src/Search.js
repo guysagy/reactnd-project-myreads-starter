@@ -23,24 +23,28 @@ class Search extends Component {
       if (this.state.query.length === 0) {
         this.setState({resultsBooks:[]});
       } else {
-        BooksAPI.search(this.state.query, 20).then((resultsBooks) => {
-          // Ignore responses out of UI input order:
-          if (query === this.state.query) {
-            if (Array.isArray(resultsBooks) !== true || resultsBooks.length === 0) {
-              resultsBooks =[];
-            } else {
-              const This = this;
-              // Search results books don't necessarily have the shelf property
-              // (not all books are on a shelf).
-              resultsBooks.forEach(function(book, index, array){
-                const bookShelf = This.props.idToShelfMap[book.id];
-                book.shelf = (bookShelf === undefined || bookShelf === null) ? "none" : bookShelf;
-              });
-            }
-            this.setState({resultsBooks:resultsBooks});
-          }
-        }); // End search().then()
-      }  // End else leg.
+        BooksAPI.search(this.state.query, 20)
+                .then((resultsBooks) => {
+                  // Ignore responses out of UI input order:
+                  if (query === this.state.query) {
+                    if (Array.isArray(resultsBooks) !== true || resultsBooks.length === 0) {
+                      resultsBooks =[];
+                    } else {
+                      const This = this;
+                      // Search results books don't necessarily have the shelf property
+                      // (not all books are on a shelf).
+                      resultsBooks.forEach(function(book, index, array){
+                        const bookShelf = This.props.idToShelfMap[book.id];
+                        book.shelf = (typeof bookShelf === "string") ? bookShelf : "none" ;
+                      });
+                    }
+                    this.setState({resultsBooks:resultsBooks});
+                  }
+                }) // end then()
+                .catch(function(error) {
+                  console.log(error);
+                });
+      }  // end else leg.
     });
   }
 

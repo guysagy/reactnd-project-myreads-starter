@@ -6,8 +6,6 @@ import Book from './Book'
 Shelf component.
 */
 
-
-
 class Shelf extends Component {
 
   constructor(props) {

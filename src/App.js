@@ -32,13 +32,17 @@ class BooksApp extends React.Component {
   }
 
   loadShelfsData() {
-    BooksAPI.getAll().then((myReadBooks) => {
-      const idToShelfMap = {};
-      myReadBooks.forEach(function(book, index, array){
-        idToShelfMap[book.id] = book.shelf;
-      });
-      this.setState({myReadBooks, idToShelfMap});
-    });
+    BooksAPI.getAll()
+            .then((myReadBooks) => {
+              const idToShelfMap = {};
+              myReadBooks.forEach(function(book, index, array){
+                idToShelfMap[book.id] = book.shelf;
+              });
+              this.setState({myReadBooks, idToShelfMap});
+            })
+            .catch(function(error) {
+              console.log(error);
+            });
   }
 
   getBooksStateCopy() {
