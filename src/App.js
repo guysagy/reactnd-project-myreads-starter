@@ -19,11 +19,12 @@ class BooksApp extends React.Component {
 
   constructor(props) {
     super(props);
-    this.loadShelfsData = this.loadShelfsData.bind(this);
-    this.isBookOnMyShelfs = this.isBookOnMyShelfs.bind(this);
-    this.addBookToShelfs = this.addBookToShelfs.bind(this);
-    this.updateBookShelf = this.updateBookShelf.bind(this);
-    this.onShelfChange = this.onShelfChange.bind(this);
+    this.loadShelfsData    = this.loadShelfsData.bind(this);
+    this.isBookOnMyShelfs  = this.isBookOnMyShelfs.bind(this);
+    this.addBookToShelfs   = this.addBookToShelfs.bind(this);
+    this.updateBookShelf   = this.updateBookShelf.bind(this);
+    this.onShelfChange     = this.onShelfChange.bind(this);
+    this.getBooksStateCopy = this.getBooksStateCopy.bind(this);
   }
 
   componentDidMount() {
@@ -40,41 +41,38 @@ class BooksApp extends React.Component {
     });
   }
 
+  getBooksStateCopy() {
+    const idToShelfMap = {};
+    for (let key in this.state.idToShelfMap) {
+      idToShelfMap[key] = this.state.idToShelfMap[key];
+    }
+    const myReadBooks = this.state.myReadBooks.slice();
+    return {idToShelfMap:idToShelfMap, myReadBooks:myReadBooks};
+  }
+
   isBookOnMyShelfs(book) {
     return (typeof this.state.idToShelfMap[book.id] === "string" && this.state.idToShelfMap[book.id] !== "none");
   }
 
   addBookToShelfs(book) {
-
-    let idToShelfMap = {};
-    for (let key in this.state.idToShelfMap) {
-      idToShelfMap[key] = this.state.idToShelfMap[key];
-    }
-    let myReadBooks = this.state.myReadBooks.slice();
-
-    idToShelfMap[book.id] = book.shelf;
-    myReadBooks.push(book);
-
-    this.setState({idToShelfMap:idToShelfMap, myReadBooks:myReadBooks});
+    const stateCopy = this.getBooksStateCopy();
+    stateCopy.idToShelfMap[book.id] = book.shelf;
+    stateCopy.myReadBooks.push(book);
+    this.setState({idToShelfMap:stateCopy.idToShelfMap, myReadBooks:stateCopy.myReadBooks});
   }
 
   updateBookShelf(book) {
+    const stateCopy = this.getBooksStateCopy();
 
-    let idToShelfMap = {};
-    for (let key in this.state.idToShelfMap) {
-      idToShelfMap[key] = this.state.idToShelfMap[key];
-    }
-    let myReadBooks = this.state.myReadBooks.slice();
-
-    idToShelfMap[book.id] = book.shelf;
-    for (let index = 0 ; index < myReadBooks.length ; ++index) {
-      if (myReadBooks[index].id === book.id) {
-        myReadBooks[index].shelf = book.shelf;
+    stateCopy.idToShelfMap[book.id] = book.shelf;
+    for (let index = 0 ; index < stateCopy.myReadBooks.length ; ++index) {
+      if (stateCopy.myReadBooks[index].id === book.id) {
+        stateCopy.myReadBooks[index].shelf = book.shelf;
         break;
       }
     }
 
-    this.setState({idToShelfMap:idToShelfMap, myReadBooks:myReadBooks});
+    this.setState({idToShelfMap:stateCopy.idToShelfMap, myReadBooks:stateCopy.myReadBooks});
   }
 
   onShelfChange(book) {

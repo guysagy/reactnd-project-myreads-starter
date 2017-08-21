@@ -21,6 +21,7 @@ class Book extends Component {
     event.preventDefault();
     const targetShelf = event.target.value;
     BooksAPI.update(this.state.bookInfo, targetShelf).then((bookInfo)=>{
+      // TODO: implement error case handling. I assume here success ....
       const updateBookInfo = this.state.bookInfo;
       updateBookInfo.shelf = targetShelf;
       this.setState({bookInfo:updateBookInfo});
