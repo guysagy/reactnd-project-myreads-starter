@@ -19,7 +19,7 @@ class Search extends Component {
   };
 
   submit(query) {
-    this.setState({query:query}, function() {
+    this.setState({query}, function() {
       if (this.state.query.length === 0) {
         this.setState({resultsBooks:[]});
       } else {
@@ -34,11 +34,11 @@ class Search extends Component {
                       // Search results books don't necessarily have the shelf property
                       // (not all books are on a shelf).
                       resultsBooks.forEach(function(book, index, array){
-                        const bookShelf = This.props.idToShelfMap[book.id];
+                        const bookShelf = This.props.mapBookIdToShelf[book.id];
                         book.shelf = (typeof bookShelf === "string") ? bookShelf : "none" ;
                       });
                     }
-                    this.setState({resultsBooks:resultsBooks});
+                    this.setState({resultsBooks});
                   }
                 }) // end then()
                 .catch(function(error) {
@@ -62,7 +62,9 @@ class Search extends Component {
               However, remember that the BooksAPI.search method DOES search by title or author. So,
               don't worry if you don't find a specific author or title. Every search is limited by search terms.
             */}
-            <input autoFocus type="search" placeholder="Search by title or author" onChange={(event) => this.submit(event.target.value)} />
+            <input autoFocus type="search" placeholder="Search by title or author" 
+              value={this.state.query}
+              onChange={(event) => this.submit(event.target.value)} />
           </div>
         </div>
         <SearchResults resultsBooks={this.state.resultsBooks} onShelfChange={this.props.onShelfChange}/>

@@ -14,7 +14,7 @@ class BooksApp extends React.Component {
   state = {
     myReadBooks : [],
     shelfs : ["Currently Reading","Want To Read","Read"],
-    idToShelfMap : {}  // Book ID to book shelf mapping.
+    mapBookIdToShelf : {}  // Book ID to book shelf mapping.
   };
 
   constructor(props) {
@@ -34,11 +34,11 @@ class BooksApp extends React.Component {
   loadShelfsData() {
     BooksAPI.getAll()
             .then((myReadBooks) => {
-              const idToShelfMap = {};
+              const mapBookIdToShelf = {};
               myReadBooks.forEach(function(book, index, array){
-                idToShelfMap[book.id] = book.shelf;
+                mapBookIdToShelf[book.id] = book.shelf;
               });
-              this.setState({myReadBooks, idToShelfMap});
+              this.setState({myReadBooks, mapBookIdToShelf});
             })
             .catch(function(error) {
               console.log(error);
@@ -46,29 +46,26 @@ class BooksApp extends React.Component {
   }
 
   getBooksStateCopy() {
-    const idToShelfMap = {};
-    for (let key in this.state.idToShelfMap) {
-      idToShelfMap[key] = this.state.idToShelfMap[key];
-    }
-    const myReadBooks = this.state.myReadBooks.slice();
-    return {idToShelfMap:idToShelfMap, myReadBooks:myReadBooks};
+    const mapBookIdToShelf = {...this.state.mapBookIdToShelf};
+    const myReadBooks = [...this.state.myReadBooks];
+    return {mapBookIdToShelf, myReadBooks};
   }
 
   isBookOnMyShelfs(book) {
-    return (typeof this.state.idToShelfMap[book.id] === "string" && this.state.idToShelfMap[book.id] !== "none");
+    return (typeof this.state.mapBookIdToShelf[book.id] === "string" && this.state.mapBookIdToShelf[book.id] !== "none");
   }
 
   addBookToShelfs(book) {
     const stateCopy = this.getBooksStateCopy();
-    stateCopy.idToShelfMap[book.id] = book.shelf;
+    stateCopy.mapBookIdToShelf[book.id] = book.shelf;
     stateCopy.myReadBooks.push(book);
-    this.setState({idToShelfMap:stateCopy.idToShelfMap, myReadBooks:stateCopy.myReadBooks});
+    this.setState({mapBookIdToShelf:stateCopy.mapBookIdToShelf, myReadBooks:stateCopy.myReadBooks});
   }
 
   updateBookShelf(book) {
     const stateCopy = this.getBooksStateCopy();
 
-    stateCopy.idToShelfMap[book.id] = book.shelf;
+    stateCopy.mapBookIdToShelf[book.id] = book.shelf;
     for (let index = 0 ; index < stateCopy.myReadBooks.length ; ++index) {
       if (stateCopy.myReadBooks[index].id === book.id) {
         stateCopy.myReadBooks[index].shelf = book.shelf;
@@ -76,7 +73,7 @@ class BooksApp extends React.Component {
       }
     }
 
-    this.setState({idToShelfMap:stateCopy.idToShelfMap, myReadBooks:stateCopy.myReadBooks});
+    this.setState({mapBookIdToShelf:stateCopy.mapBookIdToShelf, myReadBooks:stateCopy.myReadBooks});
   }
 
   onShelfChange(book) {
@@ -90,12 +87,8 @@ class BooksApp extends React.Component {
   render() {
     return (
       <div className="app">
-        <Route exact path="/" render={() => (
-          <MyReads shelfs={this.state.shelfs} myReadBooks={this.state.myReadBooks} onShelfChange={this.onShelfChange}/>
-        )}/>
-        <Route exact path="/search" render={() => (
-          <Search idToShelfMap={this.state.idToShelfMap} onShelfChange={this.onShelfChange} />
-        )}/>
+        <Route exact path="/"       render={() => <MyReads shelfs={this.state.shelfs} myReadBooks={this.state.myReadBooks} onShelfChange={this.onShelfChange}/> }/>
+        <Route exact path="/search" render={() => <Search mapBookIdToShelf={this.state.mapBookIdToShelf} onShelfChange={this.onShelfChange} />}/>
       </div>
     );
   }
